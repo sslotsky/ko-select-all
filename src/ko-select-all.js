@@ -3,6 +3,7 @@ ko.extenders.selectAll = function(target, options) {
 	var selectedMethod = options.selectedMethod;
 	_.each(collection(), function(item) {
 		var observable = item[selectedMethod];
+		observable.extend({ notify: 'always' });
 		observable.changedFromParent = ko.observable(false);
 		observable.subscribe(function (newValue) {
 			if (!observable.changedFromParent()) {
@@ -14,6 +15,7 @@ ko.extenders.selectAll = function(target, options) {
 	});
 
 	target.changedFromChild = ko.observable(false);
+	target.extend({ notify: 'always' });
 	target.subscribe(function(newValue) {
 		if (!target.changedFromChild()) {
 			_.each(collection(), function(item) {
